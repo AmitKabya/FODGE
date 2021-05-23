@@ -60,4 +60,4 @@ Give a single `.txt` file where each row contains 3/4 columns in the form: <br/>
 - **For un-weighted graphs:** from_id to_id time (e.g. 1 2 0 means there is an edge between vertices 1 and 2 at time 0).
 - **For weighted graphs:** from_id to_id weight time (e.g. 1 2 0.5 0 means there is an edge of weight 0.5 between vertices 1 and 2 at time 0).
 If the provided dataset is in this format, you can put it as it is in the `datasets` directory and use the `data_loader` function that is in `fodge/load_data`. <br/>
-If it is not, you should build a data loader that will convert it to this form. 
+If it is not, you should build a data loader function that will convert it to this form. 
