@@ -59,5 +59,17 @@ If you want to use your own dataset, you should follow this format: <br/>
 Give a single `.txt` file where each row contains 3/4 columns in the form: <br/>
 - **For un-weighted graphs:** from_id to_id time (e.g. 1 2 0 means there is an edge between vertices 1 and 2 at time 0).
 - **For weighted graphs:** from_id to_id weight time (e.g. 1 2 0.5 0 means there is an edge of weight 0.5 between vertices 1 and 2 at time 0).
+- 
 If the provided dataset is in this format, you can put it as it is in the `datasets` directory and use the `data_loader` function that is in `fodge/load_data`. <br/>
 If it is not, you should build a data loader function that will convert it to this form. 
+
+## How To Run?
+
+To embed your temporal network with FODGE, you have to provide a `.txt` file representing the network and place it in the `datasets` directory (as explained above).
+
+### Embedding
+
+### Temporal Link Prediction
+If you want to perform temporal link prediction task, you must provide non edges file:
+"evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of two columns: node1, node2, time ; where there is no edge between them (csv file has no title).
+In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here.
