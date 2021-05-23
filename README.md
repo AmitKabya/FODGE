@@ -51,10 +51,13 @@ If this repository is cloned as a pycharm project, one needs to make all the dir
 - Enron
 - Wiki Temporal
 
-**Note:** All the datasets used can be found in this [google drive link](https://drive.google.com/drive/folders/15tlgyf3GO8s8HjCsd5S5zQ7_n28DafA7?usp=sharing). 
+**Note:** All the datasets used can be found in this [google drive link](https://drive.google.com/drive/folders/15tlgyf3GO8s8HjCsd5S5zQ7_n28DafA7?usp=sharing) in the required format. 
 
 If you use one of these datasets, all you have to do is choose the dataset (see name of directories) and put the appropriate `.txt` file in `datasets`directory. 
 
-If you want to use your own dataset, you should follow this format: Give a single `.txt` file where each row is in the form:
-
-Notice you will have to adjust them to our files format (will be further explained) or provide a data loader function in order to produce the networkx graph. For .mat files, see how Youtube and Flickr datasets are loaded. You can add the appropriate condition to the function "load_data" in evaluation_tasks -> eval_utils.py. Note that when having .mat file, it has both the edges and labels. To see an example for a use go to "load_data" in evaluation_tasks -> eval_utils.py and to evaluation_tasks -> calculate_static_embeddings.py.
+If you want to use your own dataset, you should follow this format: <br/>
+Give a single `.txt` file where each row contains 3/4 columns in the form: <br/>
+- **For un-weighted graphs:** from_id to_id time (e.g. 1 2 0 means there is an edge between vertices 1 and 2 at time 0).
+- **For weighted graphs:** from_id to_id weight time (e.g. 1 2 0.5 0 means there is an edge of weight 0.5 between vertices 1 and 2 at time 0).
+If the provided dataset is in this format, you can put it as it is in the `datasets` directory and use the `data_loader` function that is in `fodge/load_data`. <br/>
+If it is not, you should build a data loader that will convert it to this form. 
