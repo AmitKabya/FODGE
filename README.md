@@ -71,5 +71,5 @@ To embed your temporal network with FODGE, you have to provide a `.txt` file rep
 
 ### Temporal Link Prediction
 If you want to perform temporal link prediction task, you must provide non edges file:
-"evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of two columns: node1, node2, time ; where there is no edge between them (csv file has no title).
+"evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of two columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
 In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here.
