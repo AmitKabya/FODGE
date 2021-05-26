@@ -14,9 +14,10 @@ This repo contains source code of the FODGE dynamic graph embedding algorithm.
 ### The Directories
 
 - `datasets` - Examples of datasets files
+- `embeddings` - Path to where to save the computed embeddings
 - `fodge` - The main files to run the FODGE framework
 - `GEA` - State-of-the-art static graph embedding algorithms implementations, currently [node2vec](https://arxiv.org/abs/1607.00653)/[GF](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/40839.pdf)/[HOPE](https://www.kdd.org/kdd2016/papers/files/rfp0184-ouA.pdf)/[GCN](https://arxiv.org/abs/1609.02907)/[GAE](https://arxiv.org/abs/1611.07308).
-- `evaluation_tasks` - Implementation of temporal link prediction task + main file to calculate the embedding and evaluate performance
+- `evaluation_tasks` - Implementation of temporal link prediction tasks
 
 #### Notes:
 - The implementations of GF and HOPE were taken from [GEM toolkit](https://github.com/palash1992/GEM)
@@ -38,10 +39,6 @@ This repo contains source code of the FODGE dynamic graph embedding algorithm.
 - tensorflow == 2.4.1
 - keras == 2.4.3
 
-## Cloning This Repo
-
-If this repository is cloned as a pycharm project, one needs to make all the directories as sources directories.
-
 ## Datasets
 - Facebook
 - Facebook Friendships
@@ -59,13 +56,15 @@ If you want to use your own dataset, you should follow this format: <br/>
 Give a single `.txt` file where each row contains 3/4 columns in the form: <br/>
 - **For un-weighted graphs:** from_id to_id time (e.g. 1 2 0 means there is an edge between vertices 1 and 2 at time 0).
 - **For weighted graphs:** from_id to_id weight time (e.g. 1 2 0.5 0 means there is an edge of weight 0.5 between vertices 1 and 2 at time 0).
-- 
+
 If the provided dataset is in this format, you can put it as it is in the `datasets` directory and use the `data_loader` function that is in `fodge/load_data`. <br/>
 If it is not, you should build a data loader function that will convert it to this form. 
 
 ## How To Run?
 
 To embed your temporal network with FODGE, you have to provide a `.txt` file representing the network and place it in the `datasets` directory (as explained above).
+
+The main file to run FODGE is `main.py`
 
 ### Embedding
 
