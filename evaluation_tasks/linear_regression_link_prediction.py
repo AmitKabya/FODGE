@@ -276,11 +276,10 @@ def link_prediction_all_time(name, node2idx, dict_snapshots, dict_all_embeddings
     column_names = ['date'] + measure_list
     df_output = pd.DataFrame(all_auc_list, columns=column_names)
     print(df_output)
-    print(df_output.iloc[-4:, 2])
-    print('method = FODGE', ', average AUC of Had: ', df_output.iloc[-4:, 2].mean())
-    print('method = FODGE', ', average AUC of Avg: ', df_output.iloc[-4:, 1].mean())
-    print('method = FODGE', ', average AUC of L1: ', df_output.iloc[-4:, 3].mean())
-    print('method = FODGE', ', average AUC of L2: ', df_output.iloc[-4:, 4].mean())
+    print('method = FODGE', ', average AUC of Had: ', df_output["Had"].mean())
+    print('method = FODGE', ', average AUC of Avg: ', df_output.["Avg"].mean())
+    print('method = FODGE', ', average AUC of L1: ', df_output.["L1"].mean())
+    print('method = FODGE', ', average AUC of L2: ', df_output.["L2"].mean())
 
     # save the results in a csv file
     output_file_path = os.path.join("lp_results_{}.csv".format(name))
