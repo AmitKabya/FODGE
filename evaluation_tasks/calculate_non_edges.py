@@ -1,3 +1,7 @@
+"""
+File to generate non-edges csv file
+"""
+
 import __init__
 import itertools as IT
 import csv
@@ -36,37 +40,38 @@ def load_graph(func, t):
     return dict_snapshots, dict_weights
 
 
-name = "facebook_friendships"
-datasets_path = os.path.join("..", "datasets")
-func = data_loader
-dict_snapshots, dict_weights = load_graph(func, (name, datasets_path))
-g_list = create_graphs(dict_snapshots)
-times = list(dict_snapshots.keys())
+def create_non_edges_file(name, path, func):
+    dict_snapshots, dict_weights = load_graph(func, (name, path))
+    g_list = create_graphs(dict_snapshots)
+    my_list = []
+    for i in range(len(g_list)):
+        g = g_list[i]
+        e = g.number_of_edges()
+        n = g.number_of_nodes()
+        print(n, e)
+        nodes = list(g.nodes())
+        # could be very big so change 0.5 to smaller values if needed.
+        indexes = random.sample(range(0, len(nodes)), int(len(nodes) * 0.5))
+        new_nodes = []
+        for j in indexes:
+            new_nodes.append(nodes[j])
+        missing = [pair for pair in IT.combinations(new_nodes, 2) if not g.has_edge(*pair)]
+        print(i)
+        print(len(missing))
+        for pair in missing:
+            my_list.append((i, pair[0], pair[1]))
 
-my_list = []
-for i in range(len(g_list)):
-    g = g_list[i]
-    e = g.number_of_edges()
-    n = g.number_of_nodes()
-    print(n, e)
-    nodes = list(g.nodes())
-    indexes = random.sample(range(0, len(nodes)), int(len(nodes) * 0.1))
-    if i > 50:
-        indexes = random.sample(range(0, len(nodes)), int(len(nodes) * 0.05))
-    new_nodes = []
-    for j in indexes:
-        new_nodes.append(nodes[j])
-    missing = [pair for pair in IT.combinations(new_nodes, 2) if not g.has_edge(*pair)]
-    print(i)
-    print(len(missing))
-    for pair in missing:
-        my_list.append((i, pair[0], pair[1]))
+        # indexes = random.sample(range(0, len(my_list)), int(len(my_list)))
+        # new_list = []
+        # for l in indexes:
+        #   new_list.append(my_list[l])
+        csvfile = open('evaluation_tasks/non_edges_{}.csv'.format(name), 'w', newline='')
+        obj = csv.writer(csvfile)
+        obj.writerows(my_list)
+        csvfile.close()
 
-# indexes = random.sample(range(0, len(my_list)), int(len(my_list)))
-# new_list = []
-# for l in indexes:
-#   new_list.append(my_list[l])
-csvfile = open('non_edges_{}.csv'.format(name), 'w', newline='')
-obj = csv.writer(csvfile)
-obj.writerows(my_list)
-csvfile.close()
+
+# name_ = "facebook_friendships"
+# datasets_path = os.path.join("..", "datasets")
+# func_ = data_loader
+# create_non_edges_file(name_, datasets_path, func_)

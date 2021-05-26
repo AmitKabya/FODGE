@@ -1,3 +1,7 @@
+"""
+Utils file for first temporal link prediction task to calculate the scores.
+"""
+
 import numpy as np
 
 

@@ -1,5 +1,9 @@
+"""
+Local update rule
+"""
+
 import heapq
-from fodge_utils import *
+from fodge.fodge_utils import *
 
 
 def lur_embed(current_node, proj_nodes, dict_proj, dim, dict_enode_enode, G, epsilon):

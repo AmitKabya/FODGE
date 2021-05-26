@@ -1,7 +1,11 @@
-from LUR import *
-from fodge_utils import *
+"""
+Main file of FODGE
+"""
+
+from fodge.LUR import *
+from fodge.fodge_utils import *
 import time
-from load_data import *
+from fodge.load_data import *
 import sys
 
 
@@ -50,7 +54,7 @@ class FODGE:
         self.alpha_exist = alpha_exist
         self.params_dict = self.define_params_for_initial_method()
 
-        self.g_list, self.nodes_list, T, self.index = self.create_contained_graphs(number)
+        self.g_list, self.nodes_list, T, self.index = self.create_cumulative_graphs(number)
 
         if self.index > 0:
             self.change_dict_snapshots(T)
@@ -119,7 +123,7 @@ class FODGE:
             H[o[1]][o[0]]["weight"] = self.beta * w
         return H
 
-    def create_contained_graphs(self, number):
+    def create_cumulative_graphs(self, number):
         """
         Create the temporal network gamma=[G1,G2,...,GT]
         """
@@ -141,7 +145,6 @@ class FODGE:
             else:
                 H.add_edges_from(self.dict_snapshots[times[i]])
                 H.to_undirected()
-                # H = self.count_edges(times[i - 1], times[i], H)
                 H = self.change_weights(times[i - 1], times[i], H)
                 H_copy = H.copy()
                 g_list.append(H_copy)
@@ -224,15 +227,19 @@ class FODGE:
     def save_embedding(self, path, mission=None):
         """
         Save the calculated embedding in a .npy file.
+        1) full_dict_embeddings: Dict of the embeddings of all the nodes at the final time.
+        2) dict_all_embeddings: Dict of the embeddings at any given time. Keys are times and values are dicts of the
+        embeddings of all the nodes that appear specifically at this time.
         :param path: Path to where to save the embedding
         :param mission: lp for temporal link prediction task, else None
-        :return: The file name
+        :return:
         """
         m = mission if mission is not None else ""
         curr_time = datetime.now().strftime("%Y%m%d_%H%M")
-        file_name = self.name + m + " + " + self.initial_method + " +n=" + str(self.number) + " + a=" + str(
+        file_name = self.name + " " + m + " + " + self.initial_method + " +n=" + str(self.number) + " + a=" + str(
             self.alpha_exist) + " + b=" + str(self.beta) + " + e=" + str(self.epsilon) + " " + str(curr_time)
         np.save(os.path.join(path, '{}.npy'.format(file_name)), self.full_dict_embeddings)
+        np.save(os.path.join(path, '{}_all_embeddings.npy'.format(file_name)), self.dict_all_embeddings)
 
 
 def main_fodge(initial_method, dict_snapshots, g_list, nodes_list, dim, params, epsilon=0.01, alpha_exist=0.,
@@ -311,9 +318,6 @@ def main_fodge(initial_method, dict_snapshots, g_list, nodes_list, dim, params, 
         # create dicts of connections
         dict_node_node, dict_node_enode, dict_enode_enode = create_dicts_of_connections \
             (set_proj_nodes, set_nodes_no_proj, neighbors_dict)
-
-        # for h in highest_deg_all[i+1]:
-        #   list_cc, dict_nodes_cc, dict_cc = update_dicts_cc(h, dict_enode_enode, dict_cc, dict_nodes_cc)
 
         # calculate each new node embedding
         dict_projections, dict_nodes_cc, dict_cc, set_no_proj = \

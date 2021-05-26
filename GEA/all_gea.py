@@ -1,6 +1,9 @@
 """
-Implantation of three state-of-the-art static embedding algorithms: Node2Vec, Graph Factorization and HOPE.
-Implementations where taken from GEM package.
+Implantation of 5 state-of-the-art static embedding algorithms: Node2Vec, Graph Factorization, HOPE, GAE and GCN.
+- The implementations of GF and HOPE were taken from GEM toolkit (https://github.com/palash1992/GEM)
+- Node2vec is implemented using node2vec public package (https://github.com/eliorc/node2vec)
+- The implementation of GCN was taken from their public github repository (https://github.com/tkipf/pygcn)
+- The implementation of GAE was taken from their public github repository (https://github.com/tkipf/gae)
 """
 from __future__ import division
 from __future__ import print_function
@@ -12,12 +15,12 @@ from scipy.sparse import identity
 from scipy.sparse.linalg import inv
 from scipy.sparse.linalg import svds
 from sklearn.metrics import accuracy_score
-from gae_pytorch.gae.model import GCNModelVAE
-from gae_pytorch.gae.optimizer import loss_function
-from gae_pytorch.gae.utils import load_data, mask_test_edges, preprocess_graph, get_roc_score, create_false_edges
-from gcn.models import *
-from gcn.layers import *
-from gcn.utils import *
+from GEA.gae_pytorch.gae.model import GCNModelVAE
+from GEA.gae_pytorch.gae.optimizer import loss_function
+from GEA.gae_pytorch.gae.utils import load_data, mask_test_edges, preprocess_graph, get_roc_score, create_false_edges
+from GEA.gcn.models import *
+from GEA.gcn.utils import *
+
 
 
 class GAE:

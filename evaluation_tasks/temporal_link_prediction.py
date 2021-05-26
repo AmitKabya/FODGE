@@ -1,4 +1,8 @@
-import __init__
+"""
+Main file to run the second temporal link prediction task (neural network)
+"""
+
+import evaluation_tasks.__init__
 from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
 from fodge.load_data import *
 from fodge.run_fodge import FODGE
@@ -9,16 +13,16 @@ import keras
 import tensorflow as tf
 from sklearn.metrics import roc_curve
 from sklearn.metrics import auc
-from scores_utils import *
-from tlp_utils import *
+from evaluation_tasks.scores_utils import *
+from evaluation_tasks.tlp_utils import *
 
 
-class TemporalLinkPrediction:
+class TemporalLinkPrediction1:
     """
     Class to run dynamic link prediction task.
     """
     def __init__(self, name, graph_path, save_path, func=data_loader, initial_method="node2vec", dim=128,
-                 epsilon=0.01, alpha_exist=0., beta=0.7, number=0, test_ratio=0.2, non_edges_file = "non_edges_dblp.csv",
+                 epsilon=0.01, alpha_exist=0., beta=0.7, number=0, test_ratio=0.2, non_edges_file="non_edges_dblp.csv",
                  file_tags=None):
         """
         Init function to initialize this class.
@@ -61,11 +65,11 @@ class TemporalLinkPrediction:
         print("Number of edges in the train set: ", self.K_train, " | Number of edges in the test set: ", self.K_test)
 
         # test edges are deleted so we need to re-build it
-        self.DE.g_list, self.DE.nodes_list, T, index = self.DE.create_contained_graphs(number)
+        self.DE.g_list, self.DE.nodes_list, T, index = self.DE.create_cumulative_graphs(number)
 
         # calculate the embedding using FODGE
-        self.full_dict_embeddings, _, self.total_time = self.DE.calculate_embedding()
-        self.DE.full_dict_embeddings = self.full_dict_embeddings
+        self.full_dict_embeddings, self.dict_all_embeddings, self.total_time = self.DE.calculate_embedding()
+        self.DE.full_dict_embeddings, self.DE.dict_all_embeddings = self.full_dict_embeddings, self.dict_all_embeddings
         self.DE.save_embedding(save_path, mission="lp")
 
         t = time() - initial_t
@@ -128,11 +132,11 @@ def evaluate_edge_classification(X_train, X_test, Y_train, Y_test, d):
     my_prediction = fit_and_predict(model, X_train, X_test, Y_train)
     prediction = my_prediction.ravel()
     fpr_keras, tpr_keras, thresholds_keras = roc_curve(Y_test, prediction)
-    print("done roc_curve")
     auc_keras = auc(fpr_keras, tpr_keras)
-    print("auc_keras is ", auc_keras)
+    # print("auc score is ", auc_keras)
     score = model.evaluate(X_test, Y_test, verbose=1)
-    print(score)
+    print("Test Loss: ", score[0])
+    print("Test AUC: ", score[1])
 
     for i in range(my_prediction.size):
         a = my_prediction[i][0]
@@ -141,11 +145,10 @@ def evaluate_edge_classification(X_train, X_test, Y_train, Y_test, d):
         else:
             my_prediction[i][0] = 0
     
-    accuracy = accuracy_score(Y_test, my_prediction)
+    acc = accuracy_score(Y_test, my_prediction)
     micro = f1_score(Y_test, my_prediction, average='micro')
     macro = f1_score(Y_test, my_prediction, average='macro')
-    auc_ = roc_auc_score(Y_test, my_prediction)
-    return micro, macro, accuracy, auc_keras
+    return micro, macro, acc, score[1]
     
 
 def exp_lp(X_train, X_test, Y_train, Y_test, test_ratio_arr, rounds, d):
@@ -211,6 +214,8 @@ def lp_mission(full_dict_proj, dict_snapshots, nodes, index, ratio_arr, rounds, 
     :param K_test: Number of true edges in the test set.
     :param non_edges_file: Csv file containing non edges in each time. First column is the time stamp, second is
                                source node and third is target node.
+    :param start_index: Index of the cumulative initial graph
+    :param d: Embedding dimension
     :return: Scores of link prediction task for each dataset- Micro-F1, Macro-F1, Accuracy and AUC. They return as
             lists for each size of initial embedding for each method
     """
@@ -238,10 +243,6 @@ def lp_mission(full_dict_proj, dict_snapshots, nodes, index, ratio_arr, rounds, 
             my_macro = second_help_calculate_lp(my_macro, number_choose)
             my_acc = second_help_calculate_lp(my_acc, number_choose)
             my_auc = second_help_calculate_lp(my_auc, number_choose)
-            print(my_micro)
-            print(my_macro)
-            print(my_acc)
-            print(my_auc)
             all_micro.append(my_micro[0])
             all_macro.append(my_macro[0])
             all_acc.append(my_acc[0])
@@ -250,24 +251,24 @@ def lp_mission(full_dict_proj, dict_snapshots, nodes, index, ratio_arr, rounds, 
     return dict_initial
 
 
-"""
-Running Example
-"""
-name = "facebook-wosn-wall"
-datasets_path = os.path.join("..", "datasets")
-save_path = os.path.join("..", "embeddings")
-func = data_loader
-initial_method = "HOPE"
-dim = 128
-epsilon = 0.01
-beta = 0.7
-alpha = 0.2
-number = 1000
-file_tags = None  # path to file tags if using GCN
-test_ratio = 0.2
-non_edges_file = "non_edges_ia-enron-email-dynamic.csv"
-LP = TemporalLinkPrediction(name, datasets_path, save_path, func=func, initial_method=initial_method, dim=dim,
-                            epsilon=epsilon, alpha_exist=alpha, beta=beta, number=number, test_ratio=test_ratio,
-                            non_edges_file=non_edges_file, file_tags=file_tags)
-print(LP.dict_initial)
+# """
+# Running Example
+# """
+# name = "facebook-wosn-wall"
+# datasets_path = os.path.join("..", "datasets")
+# save_path = os.path.join("..", "embeddings")
+# func = data_loader
+# initial_method = "HOPE"
+# dim = 128
+# epsilon = 0.01
+# beta = 0.7
+# alpha = 0.2
+# number = 1000
+# file_tags = None  # path to file tags if using GCN
+# test_ratio = 0.2
+# non_edges_file = "non_edges_ia-enron-email-dynamic.csv"
+# LP = TemporalLinkPrediction1(name, datasets_path, save_path, func=func, initial_method=initial_method, dim=dim,
+#                             epsilon=epsilon, alpha_exist=alpha, beta=beta, number=number, test_ratio=test_ratio,
+#                             non_edges_file=non_edges_file, file_tags=file_tags)
+# print(LP.dict_initial)
 

@@ -1,16 +1,18 @@
 """
 Loader functions for the datasets. You can add yours to here.
 
-All functions require 2 inputs:
+The function requires 2 inputs:
 - name: Name of dataset as the name of the file without suffix
 - path: Path to where the file is located
-- is_weighted: True for a weighted graph, else False.
 
-All functions return 2 outputs:
+The functions return 2 outputs:
 - dict_snapshots: Dictionary of snapshots, where keys are time stamps and values are list of edges occurring at this
                     time.
 - dict_weights: Dictionary of weights according to dict_snapshots - keys are the time stamps and values are list of
                 weight edges corresponding to the order of edges in dict_snapshots.
+
+Note that if you change the name of the function "data_loader", you have to change it as well in the file "main.py" in
+in line 51.
 """
 
 from datetime import datetime

@@ -1,3 +1,7 @@
+"""
+Utils file for first temporal link prediction task
+"""
+
 import random
 import numpy as np
 import sys
