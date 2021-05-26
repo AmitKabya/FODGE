@@ -5,7 +5,11 @@
 
 ## Overview
 
-FODGE is a novel dynamic graph embedding algorithm (DGEA) to gradually shift the projection of modified vertices. FODGE optimizes CPU And memory efficacy by separating the projection of the graph densest K-core and its periphery. FODGE then smoothly updates the projection of the remaining vertices, through an iterative local update rule. As such it can be applied to extremely large dynamic graphs. Moreover, it is highly modular and can be combined with any static projection, including graph convolutional networks, and has a few hyperparameters to tune. FODGE obtains a better performance in an auxiliary task of link prediction and ensures a limited difference in vertex positions in following time points.
+FODGE is a novel dynamic graph embedding algorithm (DGEA) to gradually shift the projection of modified vertices. FODGE optimizes CPU And memory efficacy by separating the projection of the graph densest K-core and its periphery. FODGE then smoothly updates the projection of the remaining vertices, through an iterative local update rule. As such it can be applied to extremely large dynamic graphs. Moreover, it is highly modular and can be combined with any static projection, including graph convolutional networks, and has a few hyperparameters to tune. FODGE is a stable embedding method, obtaining a better performance in an auxiliary task of link prediction and ensures a limited difference in vertex positions in following time points.
+
+The following movie presents a typical evolution of FODGE through 19 time points on the Facebook Wall Posts dataset. We follow the colored vertices during time to see the difference in their positions. One can see that vertices that are not changing drastically through time (change neighbors, connected components), are hardly changing their positions. This demonstrates the stability of FODGE.
+
+![caption](https://github.com/unknownuser13570/FODGE/FODGE GIF)
 
 ## About This Repo
 
