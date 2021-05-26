@@ -50,7 +50,7 @@ This repo contains source code of the FODGE dynamic graph embedding algorithm.
 - DBLP
 - Math
 - Enron
-- Wiki Temporal
+- Wiki-talk
 
 **Note:** All the datasets used can be found in this [google drive link](https://drive.google.com/drive/folders/15tlgyf3GO8s8HjCsd5S5zQ7_n28DafA7?usp=sharing) in the required format. 
 
@@ -68,9 +68,9 @@ If it is not, you should build a data loader function that will convert it to th
 
 To embed your temporal network with FODGE, you have to provide a `.txt` file representing the network and place it in the `datasets` directory (as explained above).
 
-If you want to perform the fisrt temporal link prediction task as explained in the paper, you should also have a non_edges_file: "evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of two columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
+If you want to perform the fisrt temporal link prediction task as explained in the paper, you should also have a non_edges_file: "evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of three columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
 In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here.
-Note you do not have to specifically provide it - if it is not provided by the user, it will be created during the run (can take a while)
+Note you do not have to specifically provide it - if it is not provided by the user, it will be created during the run (can take a while).
 
 The main file to run FODGE is `main.py`.
 
