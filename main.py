@@ -43,7 +43,8 @@ parser.add_argument('--val_ratio', default=0.3, type=float, help='Val ratio for 
                                                                  '(relevant only to type 2- with linear regression)')
 parser.add_argument('--non_edges_file', default='non_edges_facebook_friendships.csv', type=str,
                     help='Name of non edges csv file as explained in the readme. If you do not have any, insert None '
-                         '(str) and it will be created during the running (can take a while)')
+                         '(str) and it will be created during the running (can take a while). relevant only to type 1- 
+                         'with linear regression')
 
 
 args = parser.parse_args()
@@ -59,12 +60,13 @@ elif args.link_prediction_1 == "True":
     # Perform first temporal link prediction
     if args.non_edges_file == "None":  # create non_edges_file if the user does not give one
         non_edges_file = create_non_edges_file(args.name, args.datasets_path, func)
+        path_non_edges_file = os.path.join("evaluation_tasks", non_edges_file)
     else:
-        non_edges_file = args.non_edges_file
+        path_non_edges_file = os.path.join("evaluation_tasks", args.non_edges_file)
     LP = TemporalLinkPrediction1(args.name, args.datasets_path, args.save_path, func=func,
                                  initial_method=args.initial_method, dim=args.dim, epsilon=args.epsilon,
                                  alpha_exist=args.alpha, beta=args.beta, number=args.number, test_ratio=args.test_ratio,
-                                 non_edges_file=non_edges_file, file_tags=args.file_tags)
+                                 non_edges_file=path_non_edges_file, file_tags=args.file_tags)
 elif args.link_prediction_2 == "True":
     LP = TemporalLinkPrediction2(args.name, args.save_path, args.datasets_path, func=func,
                                  initial_method=args.initial_method, dim=args.dim, epsilon=args.epsilon,
