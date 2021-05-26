@@ -40,7 +40,7 @@ class TemporalLinkPrediction2:
         initial_t = time()
         # initialize the FODGE class
         self.DE = FODGE(name, graph_path, save_path, func=func, initial_method=initial_method, dim=dim, epsilon=epsilon,
-                        alpha_exist=alpha_exist, beta=beta, number=number, file_tags=file_tags, mission="lp")
+                        alpha_exist=alpha_exist, beta=beta, number=number, file_tags=file_tags, mission="lp2")
         self.start_index = self.DE.index
         self.graph_lp = self.DE.create_weighted_graph_for_all_times()
         print("number of nodes: ", self.graph_lp.number_of_nodes())
@@ -49,7 +49,7 @@ class TemporalLinkPrediction2:
         # calculate the embedding using FODGE
         self.full_dict_embeddings, self.dict_all_embeddings, self.total_time = self.DE.calculate_embedding()
         self.DE.full_dict_embeddings, self.DE.dict_all_embeddings = self.full_dict_embeddings, self.dict_all_embeddings
-        self.DE.save_embedding(save_path, mission="lp")
+        self.DE.save_embedding(save_path, mission="lp2")
 
         t = time() - initial_t
         print(f"FODGE is done after {t} seconds. Starting temporal link prediction task")
