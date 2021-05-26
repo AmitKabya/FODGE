@@ -139,7 +139,7 @@ optional arguments:
                         non_edges_facebook_friendships.csv)
 ```
 
-You have four options:
+You have three options:
 1. Perform an embedding of the temporal network 
 ```
 python main.py --name facebook_friendships --datasets_path datasets --save_path embeddings --initial_method node2vec --dim 128 --epsilon 0.04 --alpha 0.2 --beta 0.7 --
@@ -151,6 +151,7 @@ python main.py --name facebook_friendships --datasets_path datasets --save_path 
 number 1000 --link_prediction_1 True --test_ratio 0.2 --non_edges_file None
 ```
 Note: If you have a specific non edges file in the format explained above, provide its name
+
 3. Embedding + Second temporal link prediction (with linear regression, as exaplained in the paper)
 ```
 python main.py --name facebook_friendships --datasets_path datasets --save_path embeddings --initial_method node2vec --dim 128 --epsilon 0.04 --alpha 0.2 --beta 0.7 --
