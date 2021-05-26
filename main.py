@@ -51,7 +51,7 @@ args = parser.parse_args()
 
 func = data_loader
 
-if args.link_prediction_1 == "False" and args.link_prediction_2:
+if args.link_prediction_1 == "False" and args.link_prediction_2 == "False":
     # Only embed the temporal network
     DE = FODGE(args.name, args.datasets_path, args.save_path, func=func, initial_method=args.initial_method, dim=args.dim,
                epsilon=args.epsilon, alpha_exist=args.alpha, beta=args.beta, number=args.number,
