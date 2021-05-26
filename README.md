@@ -69,7 +69,7 @@ If it is not, you should build a data loader function that will convert it to th
 To embed your temporal network with FODGE, you have to provide a `.txt` file representing the network and place it in the `datasets` directory (as explained above).
 
 If you want to perform the fisrt temporal link prediction task as explained in the paper, you should also have a non_edges_file: "evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of three columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
-In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here.
+In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here. Make sure to put in the `evaluation_tasks` directory!
 Note you do not have to specifically provide it - if it is not provided by the user, it will be created during the run (can take a while).
 
 The main file to run FODGE is `main.py`.
