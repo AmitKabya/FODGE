@@ -9,7 +9,7 @@ FODGE is a novel dynamic graph embedding algorithm (DGEA) to gradually shift the
 
 The following movie presents a typical evolution of FODGE through 19 time points on the Facebook Wall Posts dataset. We follow the colored vertices during time to see the difference in their positions. One can see that vertices that are not changing drastically through time (change neighbors, connected components), are hardly changing their positions. This demonstrates the stability of FODGE.
 
-![caption](https://github.com/unknownuser13570/FODGE/FODGE GIF)
+![caption](https://github.com/unknownuser13570/FODGE/blob/main/FODGE%20GIF.gif)
 
 ## About This Repo
 
