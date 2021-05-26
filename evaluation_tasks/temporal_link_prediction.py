@@ -46,7 +46,7 @@ class TemporalLinkPrediction1:
         initial_t = time()
         # initialize the FODGE class
         self.DE = FODGE(name, graph_path, save_path, func=func, initial_method=initial_method, dim=dim, epsilon=epsilon,
-                        alpha_exist=alpha_exist, beta=beta, number=number, file_tags=file_tags, mission="lp")
+                        alpha_exist=alpha_exist, beta=beta, number=number, file_tags=file_tags, mission="lp1")
         self.start_index = self.DE.index
         self.graph = self.DE.create_weighted_graph_for_all_times()
         self.dict_snapshots = self.DE.dict_snapshots.copy()
@@ -70,7 +70,7 @@ class TemporalLinkPrediction1:
         # calculate the embedding using FODGE
         self.full_dict_embeddings, self.dict_all_embeddings, self.total_time = self.DE.calculate_embedding()
         self.DE.full_dict_embeddings, self.DE.dict_all_embeddings = self.full_dict_embeddings, self.dict_all_embeddings
-        self.DE.save_embedding(save_path, mission="lp")
+        self.DE.save_embedding(save_path, mission="lp1")
 
         t = time() - initial_t
         
@@ -249,26 +249,4 @@ def lp_mission(full_dict_proj, dict_snapshots, nodes, index, ratio_arr, rounds, 
             all_auc.append(my_auc[0])
         dict_initial.update({r: [all_micro, all_macro, all_acc, all_auc]})
     return dict_initial
-
-
-# """
-# Running Example
-# """
-# name = "facebook-wosn-wall"
-# datasets_path = os.path.join("..", "datasets")
-# save_path = os.path.join("..", "embeddings")
-# func = data_loader
-# initial_method = "HOPE"
-# dim = 128
-# epsilon = 0.01
-# beta = 0.7
-# alpha = 0.2
-# number = 1000
-# file_tags = None  # path to file tags if using GCN
-# test_ratio = 0.2
-# non_edges_file = "non_edges_ia-enron-email-dynamic.csv"
-# LP = TemporalLinkPrediction1(name, datasets_path, save_path, func=func, initial_method=initial_method, dim=dim,
-#                             epsilon=epsilon, alpha_exist=alpha, beta=beta, number=number, test_ratio=test_ratio,
-#                             non_edges_file=non_edges_file, file_tags=file_tags)
-# print(LP.dict_initial)
 
