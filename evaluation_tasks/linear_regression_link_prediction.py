@@ -285,27 +285,3 @@ def link_prediction_all_time(name, node2idx, dict_snapshots, dict_all_embeddings
     # save the results in a csv file
     output_file_path = os.path.join("lp_results_{}.csv".format(name))
     df_output.to_csv(output_file_path, sep=',', index=False)
-
-
-# """
-# Running Example
-# """
-# name = "facebook-wosn-wall"
-# datasets_path = os.path.join("..", "datasets")
-# save_path = os.path.join("..", "embeddings")
-# func = data_loader
-# initial_method = "HOPE"
-# dim = 128
-# epsilon = 0.01
-# beta = 0.7
-# alpha = 0.2
-# number = 1000
-# file_tags = None  # path to file tags if using GCN
-# test_ratio = 0.2
-# val_ratio = 0.3
-# LP = TemporalLinkPrediction2(name, datasets_path, save_path, func=func, initial_method=initial_method, dim=dim,
-#                              epsilon=epsilon, alpha_exist=alpha, beta=beta, number=number, test_ratio=test_ratio,
-#                              val_ratio=val_ratio, file_tags=file_tags)
-
-
-
