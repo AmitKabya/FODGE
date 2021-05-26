@@ -274,6 +274,7 @@ def main_fodge(initial_method, dict_snapshots, g_list, nodes_list, dim, params, 
     highest_k_core_all = [get_initial_proj_nodes_by_k_core(g_list[i], 100) for i in range(len(g_list))]
 
     for i in range(len(g_list) - 1):
+        print("Snapshot number", counter)
         # save the dict of embeddings
         if i > 0:
             dict_projections = z.copy()
@@ -352,29 +353,8 @@ def main_fodge(initial_method, dict_snapshots, g_list, nodes_list, dim, params, 
         full_dict_embeddings = update_full_dict_projections(list(z.keys()), full_dict_embeddings, z)
 
         # print useful information
-        print("\n")
-        print("Snapshot number", counter)
         print("running time: ", elapsed_time)
         print("The number of nodes that aren't in the final projection:", len(set_no_proj))
-        print("The number of nodes that are in the final projection:", len(z))
+        print("The number of nodes that are in the final projection:", len(z), "\n")
 
     return full_dict_embeddings, dict_all_embeddings, total_time
-
-
-"""
-Running Example
-"""
-# name = "facebook-wosn-wall"
-# datasets_path = os.path.join("..", "datasets")
-# save_path = os.path.join("..", "embeddings")
-# func = data_loader
-# initial_method = "HOPE"
-# dim = 128
-# epsilon = 0.01
-# beta = 0.7
-# alpha = 0.2
-# number = 1000
-# file_tags = None  # path to file tags if using GCN
-# DE = FODGE(name, datasets_path, save_path, func=func , initial_method=initial_method, dim=dim, epsilon=epsilon,
-#            alpha_exist=alpha, beta=beta, number=number, file_tags=file_tags)
-
