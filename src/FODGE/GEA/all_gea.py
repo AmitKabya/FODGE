@@ -15,11 +15,11 @@ from scipy.sparse import identity
 from scipy.sparse.linalg import inv
 from scipy.sparse.linalg import svds
 from sklearn.metrics import accuracy_score
-from GEA.gae_pytorch.gae.model import GCNModelVAE
-from GEA.gae_pytorch.gae.optimizer import loss_function
-from GEA.gae_pytorch.gae.utils import load_data, mask_test_edges, preprocess_graph, get_roc_score, create_false_edges
-from GEA.gcn.models import *
-from GEA.gcn.utils import *
+from .gae_pytorch.gae.model import GCNModelVAE
+from .gae_pytorch.gae.optimizer import loss_function
+from .gae_pytorch.gae.utils import load_data, mask_test_edges, preprocess_graph, get_roc_score, create_false_edges
+from .gcn.models import *
+from .gcn.utils import *
 
 
 

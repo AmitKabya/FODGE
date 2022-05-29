@@ -2,10 +2,10 @@
 Main file of FODGE
 """
 
-from fodge.LUR import *
-from fodge.fodge_utils import *
+from .LUR import *
+from .fodge_utils import *
 import time
-from fodge.load_data import *
+from .load_data import *
 import sys
 
 

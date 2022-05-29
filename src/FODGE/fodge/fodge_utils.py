@@ -2,7 +2,7 @@
 Utils file of FODGE
 """
 
-from GEA.all_gea import *
+from ..GEA.all_gea import *
 import time as my_time
 from scipy.linalg import orthogonal_procrustes
 import numpy as np

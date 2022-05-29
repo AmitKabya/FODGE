@@ -10,7 +10,7 @@ import random
 import os
 import networkx as nx
 from datetime import datetime
-from fodge.load_data import *
+from ..fodge.load_data import *
 
 
 def create_graphs(dict_snapshots):

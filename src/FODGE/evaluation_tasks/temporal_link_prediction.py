@@ -2,19 +2,19 @@
 Main file to run the second temporal link prediction task (neural network)
 """
 
-import evaluation_tasks.__init__
+
 from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
-from fodge.load_data import *
-from fodge.run_fodge import FODGE
+from ..fodge.load_data import *
+from ..fodge.run_fodge import FODGE
 from keras.layers import Input, Dense, Activation
 from keras.models import Model, Sequential
-from GEA.all_gea import *
+from ..GEA.all_gea import *
 import keras
 import tensorflow as tf
 from sklearn.metrics import roc_curve
 from sklearn.metrics import auc
-from evaluation_tasks.scores_utils import *
-from evaluation_tasks.tlp_utils import *
+from ..evaluation_tasks.scores_utils import *
+from ..evaluation_tasks.tlp_utils import *
 
 
 class TemporalLinkPrediction1:

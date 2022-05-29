@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from GEA.gae_pytorch.gae.layers import GraphConvolution
+from .layers import GraphConvolution
 
 
 class GCNModelVAE(nn.Module):

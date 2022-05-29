@@ -2,13 +2,12 @@
 Main file to run the second temporal link prediction task (linear regression)
 """
 
-import __init__
 from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
 from sklearn.linear_model import LogisticRegression
-from fodge.load_data import *
+from ..fodge.load_data import *
 import pandas as pd
-from fodge.run_fodge import FODGE
-from GEA.all_gea import *
+from ..fodge.run_fodge import FODGE
+from ..GEA.all_gea import *
 
 
 class TemporalLinkPrediction2:
@@ -277,9 +276,9 @@ def link_prediction_all_time(name, node2idx, dict_snapshots, dict_all_embeddings
     df_output = pd.DataFrame(all_auc_list, columns=column_names)
     print(df_output)
     print('method = FODGE', ', average AUC of Had: ', df_output["Had"].mean())
-    print('method = FODGE', ', average AUC of Avg: ', df_output.["Avg"].mean())
-    print('method = FODGE', ', average AUC of L1: ', df_output.["L1"].mean())
-    print('method = FODGE', ', average AUC of L2: ', df_output.["L2"].mean())
+    print('method = FODGE', ', average AUC of Avg: ', df_output["Avg"].mean())
+    print('method = FODGE', ', average AUC of L1: ', df_output["L1"].mean())
+    print('method = FODGE', ', average AUC of L2: ', df_output["L2"].mean())
 
     # save the results in a csv file
     output_file_path = os.path.join("lp_results_{}.csv".format(name))
