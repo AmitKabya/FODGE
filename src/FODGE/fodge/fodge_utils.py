@@ -27,7 +27,7 @@ def get_initial_proj_nodes_by_k_core(G, number):
     :param number: Controls number of nodes in the initial projection
     :return: A list of the nodes that are in the initial projection
     """
-    G.remove_edges_from(G.selfloop_edges())
+    G.remove_edges_from(nx.selfloop_edges(G))
     core_dict = nx.core_number(G)
     sorted_core_dict = {k: v for k, v in sorted(core_dict.items(), key=lambda item: item[1], reverse=True)}
     keys = list(sorted_core_dict.keys())
@@ -124,7 +124,7 @@ def add_weights(G, weights):
     for i in range(len(edges)):
         e = edges[i]
         # G[e[0]][e[1]] = {"weight": weights[i]}
-        G[e[0]][e[1]] = {"weight": 1}
+        G[e[0]][e[1]]["weight"] = 1
     return G
 
 

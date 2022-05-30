@@ -7,9 +7,9 @@ to run this file
 """
 
 import argparse
-from evaluation_tasks.temporal_link_prediction import *
-from evaluation_tasks.calculate_non_edges import *
-from evaluation_tasks.linear_regression_link_prediction import *
+from .evaluation_tasks.temporal_link_prediction import *
+from .evaluation_tasks.calculate_non_edges import *
+from .evaluation_tasks.linear_regression_link_prediction import *
 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -43,7 +43,7 @@ parser.add_argument('--val_ratio', default=0.3, type=float, help='Val ratio for 
                                                                  '(relevant only to type 2- with linear regression)')
 parser.add_argument('--non_edges_file', default='non_edges_facebook_friendships.csv', type=str,
                     help='Name of non edges csv file as explained in the readme. If you do not have any, insert None '
-                         '(str) and it will be created during the running (can take a while). relevant only to type 1- 
+                         '(str) and it will be created during the running (can take a while). relevant only to type 1- '
                          'with linear regression')
 
 

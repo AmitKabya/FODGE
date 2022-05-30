@@ -2,7 +2,6 @@
 File to generate non-edges csv file
 """
 
-import __init__
 import itertools as IT
 import csv
 import json
@@ -68,11 +67,14 @@ def create_non_edges_file(name, path, func):
     # for l in indexes:
     #   new_list.append(my_list[l])
     print("Almost done, writing the csv file!")
-    csvfile = open('evaluation_tasks/non_edges_{}.csv'.format(name), 'w', newline='')
+    non_edges_path = os.path.join(path, f"non_edges_{name}.csv")
+    csvfile = open(non_edges_path, 'w', newline='')
     obj = csv.writer(csvfile)
     obj.writerows(my_list)
     csvfile.close()
     print("Non edges file is ready!")
+
+    return non_edges_path
 
 
 # name_ = "facebook_friendships"

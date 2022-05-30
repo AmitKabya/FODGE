@@ -18,6 +18,7 @@ in line 51.
 from datetime import datetime
 import os
 import numpy as np
+import calendar
 
 
 def data_loader(name, path):
@@ -52,7 +53,8 @@ def data_loader(name, path):
                     if t == '0':
                         date = int(t)
                     else:
-                        x = datetime.fromtimestamp(int(t))
+                        x = datetime.fromtimestamp(0)
+                        x = add_months(x, int(t) - 1)
                         times.append(x)
                         month = x.month
                         year = x.year
@@ -143,3 +145,11 @@ def load_embedding(path, file_name):
     data = np.load(os.path.join(path, '{}.npy'.format(file_name)), allow_pickle=True)
     dict_embedding = data.item()
     return dict_embedding
+
+
+def add_months(sourcedate, months):
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year, month)[1])
+    return datetime(year, month, day)
