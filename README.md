@@ -1,15 +1,12 @@
 # FODGE - Fast Online Dynamic Graph Embedding
 
-### Contact
-********@gmail.com
-
 ## Overview
 
 FODGE is a novel dynamic graph embedding algorithm (DGEA) to gradually shift the projection of modified vertices. FODGE optimizes CPU And memory efficacy by separating the projection of the graph densest K-core and its periphery. FODGE then smoothly updates the projection of the remaining vertices, through an iterative local update rule. As such it can be applied to extremely large dynamic graphs. Moreover, it is highly modular and can be combined with any static projection, including graph convolutional networks, and has a few hyperparameters to tune. FODGE is a stable embedding method, obtaining a better performance in an auxiliary task of link prediction and ensures a limited difference in vertex positions in following time points.
 
 The following movie presents a typical evolution of FODGE through 19 time points on the Facebook Wall Posts dataset. We follow the colored vertices during time to see the difference in their positions. One can see that vertices that are not changing drastically through time (change neighbors, connected components), are hardly changing their positions. This demonstrates the stability of FODGE.
 
-![caption](https://github.com/unknownuser13570/FODGE/blob/main/FODGE%20GIF.gif)
+![caption](https://github.com/AmitKabya/FODGE/blob/main/FODGE%20GIF.gif)
 
 ## About This Repo
 
@@ -63,13 +60,89 @@ Give a single `.txt` file where each row contains 3/4 columns in the form: <br/>
 
 If the provided dataset is in this format, you can put it as it is in the `datasets` directory and use the `data_loader` function that is in `fodge/load_data`. <br/>
 If it is not, you should build a data loader function that will convert it to this form. 
+## Usage
+Install the package with `pip install FODGE`<br>
+Now you can use the package in one of the following ways:
 
-## How To Run?
+- Import to your code: `import FODGE`
+- Through terminal
+
+### Import to your code
+The Package has these 3 main functions:
+1. Run FODGE `FODGE.FODGE()`:
+   - `name`: Name of the dataset (string).
+   - `graph_path`: Path to where the dataset file is.
+   - `save_path`: Path to where to save the calculated embedding
+   - `func`: Loader function to load the dataset as a dictionary of snapshots. In order to create your own
+                        load function, one should define it in the file [load_data.py](https://github.com/AmitKabya/FODGE/blob/main/src/FODGE/fodge/load_data.py). (Name of the function)
+   - `initial_method`: Initial state-of-the-art algorithm to embed the first snapshot with. Options are
+                                  "node2vec", "HOPE", "GAE", "GF" and "GCN".
+   - `dim`: Embedding dimension (int)
+   - `epsilon`: The weight that is given to the second order neighbours.
+   - `alpha_exist`: Weight that is given to the previous changed existing nodes embeddings when they are
+           recalculated (float between 0 and 1).
+   - `beta`: Rate of exponential decay of the edges weights through time
+   - `number`: How many vertices in the cumulative initial snapshot (choose a number where a 5-core exists)
+   - `mission`: None if it is not for a specific mission, "lp" for Temporal Link Prediction task and "nc" for
+                           node classification task.
+   - `file_tags`: If GCN GEA is used, then one should profile a file of tags
+```python
+from FODGE import FODGE
+FODGE(name='catalano', graph_path=".", save_path=".", initial_method="node2vec", dim=128,
+        epsilon=0.04, alpha_exist=0.2, beta=0.7, number=50)
+```
+
+2. Perform temporal link prediction task (type 1 with neural network) `FODGE.link_prediction_1()`:
+    - `name`: Name of the dataset (string).
+    - `graph_path`: Path to where the dataset file is.
+    - `save_path`: Path to where to save the calculated embedding
+    - `func`: Loader function to load the dataset as a dictionary of snapshots. In order to create your own
+                     load function, one should define it in the file load_data.py. (Name of the function)
+    - `initial_method`: Initial state-of-the-art algorithm to embed the first snapshot with. Options are
+                               "node2vec", "HOPE", "GAE", "GF" and "GCN".
+    - `dim`: Embedding dimension (int)
+    - `epsilon`: The weight that is given to the second order neighbours.
+    - `alpha_exist`: Weight that is given to the previous changed existing nodes embeddings when they are
+        recalculated (float between 0 and 1).
+    - `beta`: Rate of exponential decay of the edges weights through time
+    - `number`: How many vertices in the cumulative initial snapshot (choose a number where a 5-core exists)
+    - `test_ratio`: Test ratio for temporal link prediction task (float)
+    - `non_edges_file`: CSV file containing non edges. Can be created with the file 'calculate_non_edges.py'
+    - `file_tags`: If GCN GEA is used, then one should profile a file of tags
+```python
+from FODGE import link_prediction_1
+link_prediction_1(name='catalano', graph_path=".", save_path=".", initial_method="node2vec", dim=128,
+                  epsilon=0.04, alpha=0.2, beta=0.7, number=50)
+```
+
+3. Perform temporal link prediction task (type 2 with linear regression) `FODGE.link_prediction_2()`:
+    - `name`: Name of the dataset (string).
+    - `graph_path`: Path to where the dataset file is.
+    - `save_path`: Path to where to save the calculated embedding
+    - `func`: Loader function to load the dataset as a dictionary of snapshots. In order to create your own
+                     load function, one should define it in the file load_data.py. (Name of the function)
+    - `initial_method`: Initial state-of-the-art algorithm to embed the first snapshot with. Options are
+                               "node2vec", "HOPE", "GAE", "GF" and "GCN".
+    - `dim`: Embedding dimension (int)
+    - `epsilon`: The weight that is given to the second order neighbours.
+    - `alpha_exist`: Weight that is given to the previous changed existing nodes embeddings when they are
+        recalculated (float between 0 and 1).
+    - `beta`: Rate of exponential decay of the edges weights through time
+    - `number`: How many vertices in the cumulative initial snapshot (choose a number where a 5-core exists)
+    - `test_ratio`: Test ratio for temporal link prediction task (float)
+    - `val_ratio`: Val ratio for temporal link prediction task (float)
+    - `file_tags`: If GCN GEA is used, then one should profile a file of tags
+```python
+from FODGE import link_prediction_2
+link_prediction_2(name='catalano', graph_path=".", save_path=".", initial_method="node2vec", dim=128,
+                  epsilon=0.04, alpha=0.2, beta=0.7, number=50)
+```
+### Through terminal
 
 To embed your temporal network with FODGE, you have to provide a `.txt` file representing the network and place it in the `datasets` directory (as explained above).
 
-If you want to perform the fisrt temporal link prediction task as explained in the paper, you should also have a non_edges_file: "evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of three columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
-In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here. Make sure to put in the `evaluation_tasks` directory!
+If you want to perform the first temporal link prediction task as explained in the paper, you should also have a non_edges_file: "evaluation_tasks/non_edges_{name_of_dataset}" - A csv file which consists of three columns: time, node1, node2 ; where there is no edge between them (csv file has no title).
+<br>In order to produce such file, you can go to `evaluation_tasks/calculate_non_edges.py`, and follow the instructions there. In addition, you can see the example file here. Make sure to put in the `evaluation_tasks` directory!
 Note you do not have to specifically provide it - if it is not provided by the user, it will be created during the run (can take a while).
 
 The main file to run FODGE is `main.py`.
@@ -145,14 +218,14 @@ You have three options:
 python main.py --name facebook_friendships --datasets_path datasets --save_path embeddings --initial_method node2vec --dim 128 --epsilon 0.04 --alpha 0.2 --beta 0.7 --
 number 1000
 ```
-2. Embedding + First temporal link prediction (with neural network, as exaplained in the paper)
+2. Embedding + First temporal link prediction (with neural network, as explained in the paper)
 ```
 python main.py --name facebook_friendships --datasets_path datasets --save_path embeddings --initial_method node2vec --dim 128 --epsilon 0.04 --alpha 0.2 --beta 0.7 --
 number 1000 --link_prediction_1 True --test_ratio 0.2 --non_edges_file None
 ```
 Note: If you have a specific non edges file in the format explained above, provide its name
 
-3. Embedding + Second temporal link prediction (with linear regression, as exaplained in the paper)
+3. Embedding + Second temporal link prediction (with linear regression, as explained in the paper)
 ```
 python main.py --name facebook_friendships --datasets_path datasets --save_path embeddings --initial_method node2vec --dim 128 --epsilon 0.04 --alpha 0.2 --beta 0.7 --
 number 1000 --link_prediction_2 True --test_ratio 0.2 --val_ratio 0.3
